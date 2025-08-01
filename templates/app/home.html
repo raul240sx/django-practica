@@ -1,54 +1,84 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% include "app/componentes/scripts.html"%}
-</head>
-<body>
-    {% include "app/componentes/header.html" %}
-    <h1>pantalla home</h1>
+    <title>Inicio | Mi Tienda</title>
+    {% include "app/componentes/scripts.html" %}
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
 
-<!--     <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-                </div>
-            </div>
-    </header> -->
-        <!-- Section-->
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        .hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .hero h1 {
+            font-weight: 700;
+        }
+
+        .product-card {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .btn-view {
+            border-radius: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    {% include "app/componentes/header.html" %}
+
+    <!-- Hero principal -->
+    <section class="hero text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold">Bienvenido a Mi Tienda</h1>
+            <p class="lead text-white-50">Descubre productos seleccionados especialmente para ti</p>
+        </div>
+    </section>
+
+    <!-- Sección de productos -->
+    <main class="flex-grow-1 py-5">
+        <div class="container px-4 px-lg-5">
+            <h2 class="text-center mb-5 fw-bold text-dark">Nuestros Productos</h2>
+
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 {% for producto in productos %}
                 <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" style="height: 325px; object-fit: cover;" src="{{producto.imagen.url}}" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{producto.nombre}}</h5>
-                                <!-- Product price-->
-                                <p>precio: CLP{{producto.precio}}</p>
-
-                            </div>
+                    <div class="card h-100 border-0 shadow-sm product-card bg-white">
+                        <img class="card-img-top" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="height: 280px; object-fit: cover;" />
+                        <div class="card-body p-4 text-center">
+                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p class="text-muted mb-0">CLP {{ producto.precio|floatformat:0 }}</p>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                        <div class="card-footer bg-transparent text-center pb-4 border-0">
+                            <a href="{%url 'detalle' producto.pk%}" class="btn btn-outline-primary btn-sm btn-view">Ver más</a>
                         </div>
                     </div>
-
                 </div>
+                {% empty %}
+                <p class="text-center text-muted">No hay productos disponibles en este momento.</p>
                 {% endfor %}
             </div>
         </div>
-    </section>
+    </main>
 
     {% include "app/componentes/footer.html" %}
 </body>
